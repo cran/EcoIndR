@@ -1,0 +1,18 @@
+
+#functions
+
+exportPattern(DER)
+
+importFrom(graphics, par, legend, text, plot, points)
+
+importFrom(utils, write.csv, write.csv2, write.table)
+
+importFrom(grDevices, chull, cm.colors, gray.colors, heat.colors, terrain.colors, topo.colors, dev.new, dev.off)
+
+importFrom(stats, lm, na.exclude, dist)
+
+
+
+
+
+
