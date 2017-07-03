@@ -474,7 +474,7 @@ names(results)<-c(nombres,"PD", "MPD", "MNTD", "PSV", "PSR", "PSE", "PSCC", "rao
 if(!is.null(TaxonFunc)){
 
 ###Functional diversity
-dtaxa<-data[,TaxonFunc]
+dtaxa<-as.data.frame(data[,TaxonFunc])
 datos[is.na(datos)]<-0
 sps<-data[, Species]
 colnames(datos)<-sps
