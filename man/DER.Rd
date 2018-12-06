@@ -15,11 +15,12 @@ file3="Indices and area of the polygon.csv", na="NA", dec=",", row.names=FALSE)
 \arguments{
   \item{data}{Data file with the taxonomy, abundance of the species and functional traits (optional). The format of the file must be: an optional column with the position of labels' samples in the DER plot (blue column) in the same order as the variables with the species' abundance in the samples (red columns), the columns with the taxonomy of the species (as many as needed, green columns), the columns with the abundance of the species in each sample (red columns) and optionally the colums with the functional traits of the species. Each row is an unique species, genus, family, etc.
 \tabular{r}{
-\figure{EcoIndRF1}{options: width=4.5in}
+\if{html}{\figure{EcoIndRF1.jpg}{options: width=4.5in}}
+\if{latex}{\figure{EcoIndRF1.jpg}{options: width=4.5in}}
 }
 }
   \item{Samples}{Variables with the abundance of the species in each sample: sampling sites, dates, etc.}
-  \item{Species}{Variable with the name of the species (without including the genus). It may be other node of the phylogenetic tree, such as the genus, family, etc., for genus level phylogenies, family level phylogenies, etc., but always without duplicates.}
+  \item{Species}{Variable with the name of the species (without including the genus). It may be other node of the phylogenetic tree, such as the genus, family, etc., for genus level phylogenies, family level phylogenies, etc.}
   \item{Taxon}{Variables with the taxonomy of the species (taxonomic diversity), as many levels as needed but without including the variable with the node of the argument \emph{Species}.}
   \item{TaxonFunc}{Optionally variables with the functional traits (functional diversity).}
   \item{TaxonPhyl}{Optionally the name of the RData file of the class phylo with the phylogeny. The file must be in the working directory.}
@@ -59,46 +60,108 @@ The steps of DER algorithm are described below:
 \strong{1.} The function DER calculates the most often used indices (see below): a total of 39 indices that includes 2 of rarity, 14 of heterogeneity, 7 of evenness, 2 of taxonomic diversity, 8 of phylogenetic diversity and 6 of functional diversity. It is important to mention that the indices included in the groups of phylogenetic diversity and functional diversity, each explores a different facet of phylogenetic diversity (Kembel et al., 2010) and functional diversity (Laliberté et al., 2010), respectively.
 
 \emph{Rarity indices}
-\tabular{llll}{
-Leroy \tab  \tab   \tab Leroy et al. (2012; 2013)
-}
-Rarity. This index is a novel contribution of this package, where \emph{S} is the number of species (species richness), \emph{s} is the number of samples, \eqn{r_{ij}} is the number of records of the species \emph{i} in the sample \emph{j}, \emph{R} is the total number of records considering all the species in all samples.
-\deqn{R=1-\frac{\displaystyle\sum_{i=1}^{S}\displaystyle\sum_{j=1}^{s}\frac{r_i}{R}}{S}}
+
+In the following equations \emph{S} is the number of species (species richness), \emph{s} is the number of samples, \eqn{r_{ij}} is the number of records of the species \emph{i} in the sample \emph{j}, \emph{R} is the total number of records considering all the species in all samples, \eqn{Q_i} is the occurrence of species \emph{i}, \eqn{Q_{min}} and \eqn{Q_{max}} are respectively the minimum and maximum occurrences in the species pool, \emph{r} is the chosen rarity cutoff point (as a percentage of occurrence), \eqn{w_i} is the weight of the \emph{ith} species in the assemblage, \eqn{w_{min}} and \eqn{w_{max}} the minimum and maximum weights respectively.
+
+\emph{Leroy} (Leroy et al., 2012; 2013)
+\deqn{w_i=\frac{1}{e^{(\frac{Q_i-Q_{min}}{rQ_{max}Q_{min}}*0.97+1.05)^2}}}
+\deqn{I_{RR}=\frac{\frac{\displaystyle\sum_{i=1}^{S}w_i}{S}-w_{min}}{w_{max}-w_{min}}}
+\emph{Rarity} This index is a novel contribution of this package.
+\deqn{R=1-\frac{\displaystyle\sum_{i=1}^{S}\displaystyle\sum_{j=1}^{s}\frac{r_{ij}}{R}}{S}}
 
 \emph{Heterogeneity indices}
 
-\tabular{llll}{
-ln Shannon-Wiener \tab  \tab   \tab Wiener, (1939; 1948; 1949)\cr
-and log Shannon-Wiener \tab  \tab   \tab Shannon (1948); Shannon and Weaver (1949)\cr
-Fisher's alpha \tab  \tab   \tab Fisher et al. (1943)\cr
-Simpson \tab  \tab   \tab Simpson (1949)\cr
-Inverse Simpson \tab  \tab   \tab Williams (1964)\cr
-Brillouin \tab  \tab   \tab Brillouin (1956)\cr
-Margalef \tab  \tab   \tab Margalef (1959)\cr
-Rényi entropy \tab  \tab   \tab Rényi (1961)\cr
-Menhinick \tab  \tab   \tab Menhinick (1964)\cr
-McIntosh \tab  \tab   \tab McIntosh  (1967)\cr
-Inverse Berger-Parker \tab  \tab   \tab Berger and Parker (1970)\cr
-Hill- Rényi and Hill-Tsallis \tab  \tab   \tab Hill (1973)\cr
-Tsallis entropy \tab  \tab   \tab Patil and Taillie (1982); Tsallis (1988)
-}
+In the following equations \emph{S} is the number of species (species richness), \eqn{p_i} is the abundace's proportion of species \emph{i}, \emph{N} is the total number of individuals in the sample, \eqn{n_i} is the number of individuals of the species \emph{i}, \eqn{n_{max}} is the number of individuals of the most abundant species, \emph{a} and \emph{q} are the orders of Rényi and Tsallis indices respectively and, finally, in Fisher's alpha the index is the \eqn{\alpha} parameter.
+
+\emph{log Shannon-Wiener (S.W.LOG2)} and \emph{ln Shannon-Wiener (S.W)} (Wiener, 1939; 1948; 1949; Shannon, 1948; Shannon & Weaver, 1949). See Spellerger & Fedor (2013) for an explanation of the dual use of the terms Shannon-Wiener and Shannon-Weaver to refer to this diversity index.
+\deqn{H=-\displaystyle\sum_{i=1}^{S}p_ilog_2p_i}
+\deqn{H'=-\displaystyle\sum_{i=1}^{S}p_ilnp_i}
+
+\emph{Fisher's alpha} (Fisher et al., 1943)
+\deqn{{\alpha}x,\frac{{\alpha}x^2}{2},\frac{{\alpha}x3}{3},.....,\frac{{\alpha}x^n}{n}}
+
+\emph{Simpson} (Simpson, 1949) 
+\deqn{D_1=1-\displaystyle\sum_{i=1}^{S}p_i^2}
+
+\emph{Inverse Simpson (InvSimpson)} Williams (1964)
+\deqn{D_2=\frac{1}{\displaystyle\sum_{i=1}^{S}p_i^2}}
+
+\emph{Brillouin} (Brillouin, 1956)
+\deqn{H_B=\frac{lnN!-\displaystyle\sum_{i=1}^{S}lnn_i!}{N}}
+
+\emph{Margalef} (Margalef, 1959)
+\deqn{D_{Mg}=\frac{(S-1)}{lnN}}
+
+\emph{Rényi entropy} (Rényi, 1961) 
+\deqn{H_a=\frac{1}{(1-a)}log\displaystyle\sum_{i=1}^{S}p_i^a} 
+
+\emph{Menhinick} (Menhinick, 1964)
+\deqn{D_{Mn}=\frac{S}{\sqrt{N}}}
+
+\emph{McIntosh} (McIntosh, 1967)
+\deqn{D_{Mc}=\frac{N-\sqrt{\displaystyle\sum_{i=1}^{S}n_i^2}}{N-\sqrt{N}}}
+
+\emph{Inverse Berger-Parker (InvB.P)} (Berger & Parker, 1970)
+\deqn{D_{BP}=\frac{1}{\frac{n_{max}}{N}}}
+
+\emph{Hill numbers} (Hill, 1973)
+
+Hill-Rényi
+\deqn{N_a=e^{H_a}}
+
+Hill-Tsallis
+\deqn{N_q=(1-(q-1)H_q)^\frac{1}{(1-q)}}
+
+where
+
+a or q = 0 is species richness
+
+a or q = 1 is Shannon's index (H')
+
+a or q = 2 is Inverse Simpson's index (\eqn{D_2})
+
+a or q = Inf is Inverse Berger-Parker index (\eqn{D_{BP}})
+
+\emph{Tsallis entropy} (Patil & Taillie, 1982; Tsallis, 1988)
+\deqn{H_q=\frac{1}{(q-1)}(1-\displaystyle\sum_{i=1}^{S}p_i^q)}
+
 \emph{Evenness indices}
 
-\tabular{llll}{
-Simpson \tab  \tab   \tab Simpson (1949)\cr
-Pielou \tab  \tab   \tab Pielou (1966)\cr
-McIntosh \tab  \tab   \tab McIntosh (1967)\cr
-Hill-Rényi numbers \tab  \tab   \tab Hill (1973)\cr
-Heip \tab  \tab   \tab Heip (1974)\cr
-Camargo \tab  \tab   \tab Camargo (1992)\cr
-Smith and Wilson's Index \tab  \tab   \tab Smith and Wilson (1996)
-}
+Annotations of the equations as mentioned for heterogeneity indices.
+
+\emph{Simpson evenness (SimpsonE)} (Simpson, 1949) 
+\deqn{E_{D1}=\frac{D_1}{S}}
+
+\emph{Pielou (PielouE)} (Pielou, 1966)
+\deqn{J'=\frac{H'}{lnS}}
+
+\emph{McIntosh evenness (McIntoshE)} (McIntosh, 1967)
+\deqn{E_{Mc}=\frac{N-\sqrt{\displaystyle\sum_{i=1}^{S}n_i^2}}{N-\frac{N}{\sqrt{S}}}}
+
+\emph{Hill evenness (HillE)} (Hill, 1973)
+
+It is used Hill-Rényi numbers where in \eqn{N_2} the value of a = 2 and in \eqn{N_2} the value of a = 1
+\deqn{E_{2,1}=\frac{N_2}{N_1}}
+
+\emph{Heip evenness (HeipE)} (Heip, 1974)
+\deqn{E_{Heip}=\frac{e^{H'}-1}{S-1}}
+
+\emph{Camargo (CamargoE)} (Camargo, 1992)
+\deqn{E_{Camargo}=1-\displaystyle\sum_{i=1}^{S}\displaystyle\sum_{j=i'+1}^{S}\frac{|p_i-p_j|}{s}}
+
+\emph{Smith and Wilson's Index (Evar)} (Smith and Wilson, 1996)
+\deqn{E_{var}=1-\left(\frac{2}{\pi}\right)\left(arctan\left(\frac{\displaystyle\sum_{i=1}^{S}{\left(lnn_i-\frac{\displaystyle\sum_{j=1}^{S}n_j}{S}\right)}^2}{S}\right)\right)}
+
 \emph{Taxonomic diversity indices}
 
-\tabular{ll}{
-Taxonomic diversity \tab Warwick and Clarke (1995; 1998; 2001)\cr
-and Taxonomic distinctness \tab  Clarke and Warwick (1998)
-}
+In the following equations summation goes over species \emph{i} and \emph{j}, \eqn{\omega} are the taxonomic distances among taxa, \emph{x} are species abundances, and \emph{n} is the total abundance for a site.
+
+\emph{Taxonomic diversity (D)} (Clarke, 1995; 1998; 2001):
+\deqn{\Delta=\frac{\sum\sum_{i<j}\omega_{ij}x_ix_j}{n(n-1)/2}}
+
+\emph{Taxonomic distinctness (Dstar)} (Clarke and Warwick, 1998):
+\deqn{\Delta^*=\frac{\sum\sum_{i<j}\omega_{ij}x_ix_j}{\sum\sum_{i<j}x_ix_j}}
+
 \emph{Phylogenetic diversity indices}
 
 \tabular{llll}{
@@ -111,16 +174,37 @@ Phylogenetic species evenness \tab  \tab   \tab Helmus et al. (2007)\cr
 Phylogenetic species clustering \tab  \tab   \tab Helmus et al. (2007)\cr
 Quadratic entropy \tab  \tab   \tab Rao (1982)
 }
+
 \emph{Functional diversity indices}
 
-\tabular{llll}{
- Rao's quadratic entropy \tab  \tab   \tab Botta-Dukát (2005)\cr
-Functional group richness \tab  \tab  \tab Petchey and Gaston (2006)\cr
-Functional richness \tab  \tab  \tab Villéger et al. (2008)\cr
-Functional evenness \tab  \tab  \tab Villéger et al. (2008)\cr
-Functional divergence \tab  \tab  \tab Villéger et al. (2008)\cr
-Functional dispersion \tab  \tab  \tab Laliberté and Legendre (2010)
+In the following equations \emph{S} is the number of species, where \eqn{d_{ij}} is the difference between the \emph{i-th} and \emph{j-th} species, \eqn{p_i} is the abundance's proportion of the species \emph{i}, \eqn{p_j} is the abundance's proportion of the species \eqn{j}, \emph{EW} is weighted evenness, dist(\emph{i}, \emph{j}) is the Euclidean distance between species \emph{i} and \emph{j}, the species involved is branch \emph{l}, \eqn{w_i} is the relative abundance of the species \emph{i}, \eqn{PEW_l} is the partial weighted evenness, \eqn{g_k} are the coordinates of the center of gravity of the \emph{V} species forming the vertices of the convex hull, \eqn{x_{ik}} is the coordinate of species \emph{i} on trait \emph{k}, \eqn{dG_i} is the Euclidean distance of the center of gravity, \eqn{\bar{dG}} is the mean distance of the \emph{S} species to the center of gravity, \eqn{\Delta}\emph{d} is the sum of abundance-weighted deviances and \eqn{\Delta}\emph{|d|} absolute abundance-weighted deviances.
+
+\emph{Rao's quadratic entropy} (Rao, 1982; Botta-Dukát, 2005):
+\deqn{Q=\displaystyle\sum_{i=1}^{S-1}\displaystyle\sum_{j=i+1}^{S-1}d_{ij}p_ip_j}
+\deqn{d_{ij}=\displaystyle\sum_{k=1}^{n}\displaystyle\sum_{l=1}^{n}w_{kl}(X_{ik}-X_{jk})(X_{il}-X_{jl})}
+
+\emph{Functional group richness (FGR)} Petchey and Gaston (2006)
+
+\emph{Functional richness (FRic)} is measured as the amount of functional space (convex hull volume) filled by the community (Villéger et al., 2008).
+
+\emph{Functional evenness (FEve)} (Villéger et al., 2008):
+\deqn{FEve=\frac{\displaystyle\sum_{l=1}^{S-1}min(PEW_l,\frac{1}{S-1})-\frac{1}{S-1}}{1-\frac{1}{S-1}}}
+\tabular{ll}{
+\eqn{PEW_l=\frac{EW_l}{\displaystyle\sum_{l=1}^{S}EW_l}} \tab \eqn{EW_l=\frac{dis(i,j)}{w_i+w_j}}\cr
 }
+\emph{Functional divergence (FDiv)} (Villéger et al., 2008):
+\deqn{FDiv=\frac{\Delta{d}+\bar{dG}}{\Delta{|d|}+\bar{dG}}}
+\tabular{ll}{
+\eqn{\Delta{|d|}=\displaystyle\sum_{i=1}^{S}w_i|dG_i-\bar{dG}|} \tab \eqn{\Delta{d}=\displaystyle\sum_{i=1}^{S}w_i(dG_i-\bar{dG})}\cr
+}
+\tabular{lll}{
+\eqn{\bar{dG}=\frac{1}{S}\displaystyle\sum_{i=1}^{S}dG_i} \tab \eqn{dG_i=\sqrt{\displaystyle\sum_{k=1}^{T}(x_{ik}-g_k)^2}} \tab \eqn{g_k=\frac{1}{V}\displaystyle\sum_{i=1}^{V}x_{ik}}\cr
+}
+\emph{Functional dispersion (FDis)} (Laliberté and Legendre, 2010):
+\tabular{ll}{
+\eqn{FDisp=\frac{\sum{a_jz_j}}{\sum{a_j}}} \tab \eqn{c=\frac{\sum{a_jx_{ij}}}{\sum{a_j}}}\cr
+}
+
 \strong{2.} Each index is transformed to a scale range between 0 and 1 for all samples with the following equation:
 \deqn{\frac{(index of the sample-min)}{(max-min)}}
 
@@ -149,7 +233,8 @@ The index Fisher alpha was estimated with the function \link[vegan]{fisher.alpha
 
 The example without functional diversity is a dataset with the abundance of rotifers species in ponds (see table 1 in Mazuelos et al., 1993). In the argument \emph{Index} were selected Rarity, Menhinick, McIntoshE and Dstar, which are the indices selected by the algorithm when \emph{Index=NULL} (default option). The sample G3.1 had the lowest values of the indices of rarity, heterogeneity, evenness and taxonomic diversity and the pond I3.1 the highest values for all indices.
 \tabular{c}{
-\figure{EcoIndRF2}{options: width=5in}
+\if{html}{\figure{EcoIndRF2.jpg}{options: width=5in}}
+\if{latex}{\figure{EcoIndRF2.jpg}{options: width=5in}}
 }
 }
 \references{

@@ -7,6 +7,7 @@ file1="Diversity indices.csv", file2="Polar coordinates.csv",
 file3="Indices and area of the polygon.csv", na="NA", dec=",", row.names=FALSE){
 
 
+
 #####Checking data required
 if(!is.null(Index) & (length(Index)!=4 & length(Index)!=5)){
 stop("The number of indices in the argument Index must be 4 or 5")
@@ -244,8 +245,23 @@ if(palette== "cm.colors"){
 rampa<-cm.colors(n=ncolor, alpha=transparency)
 }
 
+#####Make species unique
+sps<-data[,Species]
+
+if(any(grepl("-", sps)==TRUE)==TRUE){
+sps<-sub("-", "",sps)
+}
+
+if(anyDuplicated(sps)>0){
+sps<-make.unique(sps, sep= "")
+}
+
+data[,Species]<-sps
+#####
+
 
 ####Samples selection
+
 datos<-t(data[,Samples])
 colnames(datos)<-data[,Species]
 
@@ -602,6 +618,13 @@ YY<-apply(datosY,1,sum)
 datosF<-data.frame(results[,1],XX,YY)
 colnames(datosF)<-c("Samples", "X","Y")
 
+NA1<-is.na(datosF[,2])
+NA2<-is.na(datosF[,3])
+NA1<-length(NA1[NA1==TRUE])
+NA2<-length(NA2[NA2==TRUE])
+
+
+if(NA1==0 & NA2==0){
 ###Area of the polygon
 uni<-unique(datosF[,2:3])
 eu<-cha(x = uni[,1], y = uni[,2])
@@ -615,6 +638,8 @@ if(meanb>dist){
 IndicesF<-Indices
 datosFF<-datosF
 dist<-meanb
+}
+
 }
 
 }#End duplicate
@@ -874,6 +899,14 @@ YY<-apply(datosY,1,sum)
 datosF<-data.frame(results[,1],XX,YY)
 colnames(datosF)<-c("Samples", "X","Y")
 
+NA1<-is.na(datosF[,2])
+NA2<-is.na(datosF[,3])
+NA1<-length(NA1[NA1==TRUE])
+NA2<-length(NA2[NA2==TRUE])
+
+
+if(NA1==0 & NA2==0){
+
 ###Area of the polygon
 uni<-unique(datosF[,2:3])
 eu<-cha(x = uni[,1], y = uni[,2])
@@ -888,6 +921,8 @@ if(meanb>dist){
 IndicesF<-Indices
 datosFF<-datosF
 dist<-meanb
+}
+
 }
 
 }#End duplicate

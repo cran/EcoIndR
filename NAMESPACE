@@ -1,7 +1,7 @@
 
 #functions
 
-exportPattern(DER)
+exportPattern(DER, FCA)
 
 importFrom(graphics, par, legend, text, plot, points)
 

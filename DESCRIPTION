@@ -1,5 +1,5 @@
 Package: EcoIndR
-Version: 1.2
+Version: 1.4
 Title: Ecological Indicators
 Author: Cástor Guisande González
 Maintainer: Cástor Guisande González <castor@uvigo.es>
@@ -10,5 +10,5 @@ Depends: R (>= 3.1.1)
 Suggests: vegan, shape, Rarity, splancs, plotrix, FD, picante
 Repository: CRAN
 NeedsCompilation: no
-Packaged: 2017-09-01 19:15:56 UTC; castor
-Date/Publication: 2017-09-01 19:54:14 UTC
+Packaged: 2018-12-06 11:46:16 UTC; castor
+Date/Publication: 2018-12-06 12:40:03 UTC
