@@ -1,5 +1,5 @@
 Package: EcoIndR
-Version: 1.4
+Version: 1.5
 Title: Ecological Indicators
 Author: Cástor Guisande González
 Maintainer: Cástor Guisande González <castor@uvigo.es>
@@ -7,8 +7,10 @@ Description: Calculates several indices, such as of diversity, fluctuation, etc.
 License: GPL (>= 2)
 Encoding: latin1
 Depends: R (>= 3.1.1)
-Suggests: vegan, shape, Rarity, splancs, plotrix, FD, picante
+Imports: rgeos
+Suggests: vegan, shape, Rarity, splancs, plotrix, FD, picante, sp,
+        geoR, mgcv, raster, alphahull, sf, methods
 Repository: CRAN
 NeedsCompilation: no
-Packaged: 2018-12-06 11:46:16 UTC; castor
-Date/Publication: 2018-12-06 12:40:03 UTC
+Packaged: 2019-03-08 21:01:11 UTC; castor
+Date/Publication: 2019-03-10 20:32:56 UTC

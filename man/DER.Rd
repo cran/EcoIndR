@@ -13,7 +13,7 @@ file1="Diversity indices.csv", file2="Polar coordinates.csv",
 file3="Indices and area of the polygon.csv", na="NA", dec=",", row.names=FALSE)
 }
 \arguments{
-  \item{data}{Data file with the taxonomy, abundance of the species and functional traits (optional). The format of the file must be: an optional column with the position of labels' samples in the DER plot (blue column) in the same order as the variables with the species' abundance in the samples (red columns), the columns with the taxonomy of the species (as many as needed, green columns), the columns with the abundance of the species in each sample (red columns) and optionally the colums with the functional traits of the species. Each row is an unique species, genus, family, etc.
+  \item{data}{Data file with the taxonomy, abundance of the species and functional traits (optional). The format of the file must be: an optional column with the position of labels' samples in the DER plot (blue column) in the same order as the variables with the species' abundance in the samples (red columns), the columns with the taxonomy of the species (as many as needed, green columns), the columns with the abundance of the species in each sample (red columns) and optionally the columns with the functional traits of the species. Each row is an unique species, genus, family, etc.
 \tabular{r}{
 \if{html}{\figure{EcoIndRF1.jpg}{options: width=4.5in}}
 \if{latex}{\figure{EcoIndRF1.jpg}{options: width=4.5in}}
