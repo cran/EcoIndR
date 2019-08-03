@@ -4,7 +4,7 @@ palette= "heat.colors", size=c(1,5), digitsS=0, digitsC=2, ncolor=100,
 transparency=1, references=TRUE, a=1.5, q=2.5, ResetPAR=TRUE, PAR=NULL, dbFD=NULL, LEGENDS=NULL,
 TEXT=NULL,COLOR=c("#EEC591FF", "black", "grey50"),
 file1="Diversity indices.csv", file2="Polar coordinates.csv",
-file3="Indices and area of the polygon.csv", na="NA", dec=",", row.names=FALSE){
+file3="Indices and area of the polygon.csv", na="NA", dec=",", row.names=FALSE, save=TRUE){
 
 
 
@@ -251,6 +251,8 @@ sps<-data[,Species]
 if(any(grepl("-", sps)==TRUE)==TRUE){
 sps<-sub("-", "",sps)
 }
+
+sps<-as.character(sps)
 
 if(anyDuplicated(sps)>0){
 sps<-make.unique(sps, sep= "")
@@ -534,11 +536,13 @@ names(results)<-c(nombres,Funnames)
 
 
 #Save the diversity indices
+if(save==TRUE){
 if(dec=="."){
 write.csv(x=results,file = file1, fileEncoding = "", row.names=row.names,na=na)
 }
 else{
 write.csv2(x = results,file = file1, fileEncoding = "", row.names=row.names,na=na)
+}
 }
 
 ####Polar coordinates
@@ -773,6 +777,7 @@ eval(parse(text=textexe))
 
 
 ####Save the polar coordinates
+if(save==TRUE){
 if(dec=="."){
 write.csv(x=datosF,file = file2, fileEncoding = "", row.names=row.names,na=na)
 }
@@ -789,6 +794,7 @@ write.csv(x=ind,file = file3, fileEncoding = "", row.names=row.names,na=na)
 }
 else{
 write.csv2(x = ind,file = file3, fileEncoding = "", row.names=row.names,na=na)
+}
 }
 }
 
@@ -1072,6 +1078,7 @@ eval(parse(text=textexe))
 
 
 ####Save the polar coordinates
+if(save==TRUE){
 if(dec=="."){
 write.csv(x=datosF,file = file2, fileEncoding = "", row.names=row.names,na=na)
 }
@@ -1088,6 +1095,7 @@ write.csv(x=ind,file = file3, fileEncoding = "", row.names=row.names,na=na)
 }
 else{
 write.csv2(x = ind,file = file3, fileEncoding = "", row.names=row.names,na=na)
+}
 }
 }
 

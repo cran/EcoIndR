@@ -11,6 +11,8 @@ importFrom(grDevices, chull, cm.colors, gray.colors, heat.colors, terrain.colors
 
 importFrom(stats, lm, na.exclude, dist, IQR, quantile, residuals, step, aggregate, complete.cases)
 
+import(rgeos)
+
 
 
 

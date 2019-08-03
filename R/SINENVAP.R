@@ -1160,8 +1160,14 @@ x1<-xl
 x2<-xr
 }
 
+if(is.null(ZLIM)){
 legend.max=max(Predictions[,var], na.rm=TRUE)
 legend.min=min(Predictions[,var], na.rm=TRUE)
+}
+else{
+legend.max<-ZLIM[2]
+legend.min<-ZLIM[1]
+}
 
 legend.freq=abs((legend.max-legend.min)/(breaks-1))
 iniF<-legend.min

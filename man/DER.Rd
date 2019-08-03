@@ -10,7 +10,7 @@ palette= "heat.colors", size=c(1,5),digitsS=0, digitsC=2, ncolor=100,
 transparency=1, references=TRUE, a=1.5, q=2.5, ResetPAR=TRUE, PAR=NULL,
 dbFD=NULL, LEGENDS=NULL, TEXT=NULL, COLOR=c("#EEC591FF", "black", "grey50"),
 file1="Diversity indices.csv", file2="Polar coordinates.csv",
-file3="Indices and area of the polygon.csv", na="NA", dec=",", row.names=FALSE)
+file3="Indices and area of the polygon.csv", na="NA", dec=",", row.names=FALSE, save=TRUE)
 }
 \arguments{
   \item{data}{Data file with the taxonomy, abundance of the species and functional traits (optional). The format of the file must be: an optional column with the position of labels' samples in the DER plot (blue column) in the same order as the variables with the species' abundance in the samples (red columns), the columns with the taxonomy of the species (as many as needed, green columns), the columns with the abundance of the species in each sample (red columns) and optionally the columns with the functional traits of the species. Each row is an unique species, genus, family, etc.
@@ -50,6 +50,7 @@ file3="Indices and area of the polygon.csv", na="NA", dec=",", row.names=FALSE)
   \item{na}{CSV FILE. Text that is used in the cells without data.}
   \item{dec}{CSV FILE. It defines if the comma "," is used as decimal separator or the dot ".".}
   \item{row.names}{CSV FILE. Logical value that defines if identifiers are put in rows or a vector with a text for each of the rows.}
+  \item{save}{If it is TRUE, the CSV files are saved.}
 }
 \value{It is depicted a plot of polar coordinates estimated with the rarity, heterogeneity, evenness, taxonomic/phylogenetic and functional diversity indices, CSV files are saved with all the indices, the polar coordinates estimated with the indices specified in the argument \emph{Index} or estimated by the algorithm, and the area of the convex hull and mean Euclidean distance obtained in the polar coordinates system for all combinations of the indices.}
 \details{
@@ -333,7 +334,7 @@ DER(data=Rotifers, Samples=c("J1.1","K4.1","G3.1","F2.1","K2.2","F8.2","F8.1",
 "K3.3","G5.1","E6.1","J1.2","J6.1","G7.1","G6.1","G4.1","E3.1","E4.3","E2.1",
 "H6.2","F7.1","J6.2"), Species="Species", Taxon=c("Class","Subclass",
 "Superorder","Order","Family","Genus"), pos="Pos", Index=c("Rarity","Menhinick",
-"McIntoshE", "Dstar") )
+"McIntoshE", "Dstar"), save=FALSE)
 
 
 
