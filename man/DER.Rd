@@ -5,8 +5,8 @@
 \description{An algorithm for differentiating samples on the basis of the rarity, heterogeneity, evenness, taxonomic/phylogenetic and functional diversity indices that better reflect the differences among assemblages.}
 \usage{
 DER(data, Samples, Species, Taxon, TaxonFunc=NULL, TaxonPhyl=NULL,
-pos=NULL, varSize="Richness", varColor="Rarity", Index=NULL, corr="sqrt",
-palette= "heat.colors", size=c(1,5),digitsS=0, digitsC=2, ncolor=100,
+pos=NULL, varSize="Richness", varColor="Rarity.G", Index=NULL, corr="sqrt",
+palette= "heat.colors", size=c(1,5),digitsS=1, digitsC=2, ncolor=100,
 transparency=1, references=TRUE, a=1.5, q=2.5, ResetPAR=TRUE, PAR=NULL,
 dbFD=NULL, LEGENDS=NULL, TEXT=NULL, COLOR=c("#EEC591FF", "black", "grey50"),
 file1="Diversity indices.csv", file2="Polar coordinates.csv",
@@ -62,17 +62,19 @@ The steps of DER algorithm are described below:
 
 \emph{Rarity indices}
 
-In the following equations \emph{S} is the number of species (species richness), \emph{s} is the number of samples, \eqn{r_{ij}} is the number of records of the species \emph{i} in the sample \emph{j}, \emph{R} is the total number of records considering all the species in all samples, \eqn{Q_i} is the occurrence of species \emph{i}, \eqn{Q_{min}} and \eqn{Q_{max}} are respectively the minimum and maximum occurrences in the species pool, \emph{r} is the chosen rarity cutoff point (as a percentage of occurrence), \eqn{w_i} is the weight of the \emph{ith} species in the assemblage, \eqn{w_{min}} and \eqn{w_{max}} the minimum and maximum weights respectively.
+In the following equations \emph{S} is the number of species (species richness) in the sample, \emph{s} is the number of samples, \eqn{p_{ij}} is the presence or absence (0 or 1) of the species \emph{i} in the sample \emph{j}, \eqn{r_{ij}} is the number of records or abundance of the species \emph{i} in the sample \emph{j}, \eqn{R_{i}} is the total number of records or total abundance of the species \emph{i} considering all samples, \eqn{Q_i} is the occurrence of species \emph{i}, \eqn{Q_{min}} and \eqn{Q_{max}} are respectively the minimum and maximum occurrences in the species pool, \emph{r} is the chosen rarity cutoff point (as a percentage of occurrence), \eqn{w_i} is the weight of the \emph{ith} species in the assemblage, \eqn{w_{min}} and \eqn{w_{max}} the minimum and maximum weights respectively.
 
 \emph{Leroy} (Leroy et al., 2012; 2013)
 \deqn{w_i=\frac{1}{e^{(\frac{Q_i-Q_{min}}{rQ_{max}Q_{min}}*0.97+1.05)^2}}}
 \deqn{I_{RR}=\frac{\frac{\displaystyle\sum_{i=1}^{S}w_i}{S}-w_{min}}{w_{max}-w_{min}}}
-\emph{Rarity} This index is a novel contribution of this package.
-\deqn{R=1-\frac{\displaystyle\sum_{i=1}^{S}\displaystyle\sum_{j=1}^{s}\frac{r_{ij}}{R}}{S}}
+\emph{Geographical rarity} This index is a novel contribution of this package.
+\deqn{GR=1-\frac{\displaystyle\sum_{i=1}^{S}\frac{\displaystyle\sum_{j=1}^{s}p_{ij}}{s}}{S}}
+\emph{Occurrential rarity} This index is a novel contribution of this package.
+\deqn{OR=1-\frac{\displaystyle\sum_{i=1}^{S}\frac{\displaystyle\sum_{j=1}^{s}r_{ij}}{R_{i}}}{S}}
 
 \emph{Heterogeneity indices}
 
-In the following equations \emph{S} is the number of species (species richness), \eqn{p_i} is the abundace's proportion of species \emph{i}, \emph{N} is the total number of individuals in the sample, \eqn{n_i} is the number of individuals of the species \emph{i}, \eqn{n_{max}} is the number of individuals of the most abundant species, \emph{a} and \emph{q} are the orders of Rényi and Tsallis indices respectively and, finally, in Fisher's alpha the index is the \eqn{\alpha} parameter.
+In the following equations \emph{S} is the number of species (species richness) in the sample, \eqn{p_i} is the abundace's proportion of species \emph{i}, \emph{N} is the total number of individuals in the sample, \eqn{n_i} is the number of individuals of the species \emph{i}, \eqn{n_{max}} is the number of individuals of the most abundant species, \emph{a} and \emph{q} are the orders of Rényi and Tsallis indices respectively and, finally, in Fisher's alpha the index is the \eqn{\alpha} parameter.
 
 \emph{log Shannon-Wiener (S.W.LOG2)} and \emph{ln Shannon-Wiener (S.W)} (Wiener, 1939; 1948; 1949; Shannon, 1948; Shannon & Weaver, 1949). See Spellerger & Fedor (2013) for an explanation of the dual use of the terms Shannon-Wiener and Shannon-Weaver to refer to this diversity index.
 \deqn{H=-\displaystyle\sum_{i=1}^{S}p_ilog_2p_i}
@@ -333,7 +335,7 @@ DER(data=Rotifers, Samples=c("J1.1","K4.1","G3.1","F2.1","K2.2","F8.2","F8.1",
 "F1.1","F4.1","J2.1","E5.1","H5.1","K3.2","E4.2","I6.1","K2.1","J5.1","I3.1",
 "K3.3","G5.1","E6.1","J1.2","J6.1","G7.1","G6.1","G4.1","E3.1","E4.3","E2.1",
 "H6.2","F7.1","J6.2"), Species="Species", Taxon=c("Class","Subclass",
-"Superorder","Order","Family","Genus"), pos="Pos", Index=c("Rarity","Menhinick",
+"Superorder","Order","Family","Genus"), pos="Pos", Index=c("Rarity.G","Menhinick",
 "McIntoshE", "Dstar"), save=FALSE)
 
 

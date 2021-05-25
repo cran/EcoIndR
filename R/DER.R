@@ -1,6 +1,6 @@
 DER<-function(data, Samples, Species, Taxon, TaxonFunc=NULL, TaxonPhyl=NULL, pos=NULL,
-varSize="Richness", varColor="Rarity", Index=NULL, corr="sqrt",
-palette= "heat.colors", size=c(1,5), digitsS=0, digitsC=2, ncolor=100,
+varSize="Richness", varColor="Rarity.G", Index=NULL, corr="sqrt",
+palette= "heat.colors", size=c(1,5), digitsS=1, digitsC=2, ncolor=100,
 transparency=1, references=TRUE, a=1.5, q=2.5, ResetPAR=TRUE, PAR=NULL, dbFD=NULL, LEGENDS=NULL,
 TEXT=NULL,COLOR=c("#EEC591FF", "black", "grey50"),
 file1="Diversity indices.csv", file2="Polar coordinates.csv",
@@ -22,6 +22,25 @@ stop("The file of TaxonPhyl does not exist in the working directory")
 if(length(COLOR)!=3){
 stop("The number of colors in the argument COLOR must be 3")
 }
+
+
+###All the samples with species
+dati<-data[,Samples]
+col<-apply(X = dati , MARGIN = 2 , FUN = sum , na.rm=TRUE)
+col<-which(col==0)
+if(length(col)>0){
+stop(paste("There are no records of species in the following samples:", paste(names(col), collapse=", ")))
+}
+
+###All species with records
+dati<-data[,Samples]
+col<-apply(X = dati , MARGIN = 1 , FUN = sum , na.rm=TRUE)
+pos1<-which(col==0)
+if(length(pos1)>0){
+sps<-as.character(data[pos1,Species])
+stop(paste("There are no records of the following species:", paste(sps, collapse=", ")))
+}
+
 
 
 ####Function for calculating the area of the polar coordinates
@@ -287,16 +306,29 @@ Shannonln<--apply(X = S2 , MARGIN = 1 , FUN = sum, na.rm=TRUE)
 S2<-S1*log(S1,base=2)
 Shannonlog<--apply(X = S2 , MARGIN = 1 , FUN = sum, na.rm=TRUE)
 
-###Rarity
+
+###Rarity.G
 R1<-datos
 R1[R1==0]<-NA
 R1[!is.na(R1)]<-1
+R2<-apply(X = R1 , MARGIN = 2 , FUN = sum, na.rm=TRUE)
+R3<-R2/length(Samples)
+R4<-sweep(R1, 2, R3, "*")
+R5<-apply(X = R4 , MARGIN = 1 , FUN = mean, na.rm=TRUE)
+Rarity.G<-1-R5
+
+###Rarity.O
+R1<-datos
+R1[R1==0]<-NA
+R6<-R1
+R6[!is.na(R6)]<-1
 suma<-sum(R1, na.rm=TRUE)
 R2<-apply(X = R1 , MARGIN = 2 , FUN = sum, na.rm=TRUE)
 R3<-R2/suma
-R4<-sweep(R1, 2, R3, "*")
+R4<-sweep(R6, 2, R3, "*")
 R5<-apply(X = R4 , MARGIN = 1 , FUN = mean, na.rm=TRUE)
-Rarity<-1-R5
+Rarity.O<-1-R5
+
 
 ###Rarity Leroy
 rarity.weights <- Rarity::rWeights(R2)
@@ -419,18 +451,18 @@ taxon[is.na(taxon)]<-0
 ###Final results
 
 if(verdad==FALSE){
-results<-data.frame(rownames(datos), Abu,Irr[,1],Rarity,Richness,Shannonlog,Shannonln, FA,Simpson1,Simpson2,Bri, Mar,
+results<-data.frame(rownames(datos), Abu,Irr[,1],Rarity.G, Rarity.O, Richness,Shannonlog,Shannonln, FA,Simpson1,Simpson2,Bri, Mar,
 Re, Men,MCI,Ber,HiRe,HiTs,Ts,SE,Pie, McE, HE, Hei, camargo, Evar, taxon[,1], taxon[,2])
 
-names(results)<-c("Samples", "Abundances","Rarity.Leroy","Rarity","Richness","S.W.LOG2","S.W","Fisher","Simpson", "InvSimpson",
+names(results)<-c("Samples", "Abundances","Rarity.Leroy","Rarity.G", "Rarity.O", "Richness","S.W.LOG2","S.W","Fisher","Simpson", "InvSimpson",
 "Brillouin","Margalef", "Renyi", "Menhinick", "McIntosh","InvB.P", "Hill.Renyi","Hill.Tsallis","Tsallis","SimpsonE","PielouE",
 "McIntoshE",  "HillE",  "HeipE","CamargoE", "Evar","D","Dstar")
 }
 else{
-results<-data.frame(rownames(datos), Abu,Irr[,1],Rarity,Richness,Shannonlog,Shannonln,Simpson1,Simpson2,Bri, Mar,
+results<-data.frame(rownames(datos), Abu,Irr[,1], Rarity.G, Rarity.O, Richness,Shannonlog,Shannonln,Simpson1,Simpson2,Bri, Mar,
 Re, Men,MCI,Ber,HiRe,HiTs,Ts,SE,Pie, McE, HE, Hei, camargo, Evar, taxon[,1], taxon[,2])
 
-names(results)<-c("Samples", "Abundances","Rarity.Leroy","Rarity","Richness","S.W.LOG2","S.W","Simpson", "InvSimpson",
+names(results)<-c("Samples", "Abundances","Rarity.Leroy", "Rarity.G", "Rarity.O", "Richness","S.W.LOG2","S.W","Simpson", "InvSimpson",
 "Brillouin","Margalef", "Renyi", "Menhinick", "McIntosh","InvB.P", "Hill.Renyi","Hill.Tsallis","Tsallis","SimpsonE","PielouE",
 "McIntoshE",  "HillE",  "HeipE","CamargoE", "Evar","D","Dstar")
 }
@@ -565,8 +597,8 @@ if(is.null(Index)){
 ind<-data.frame("a","b","c","d",1,1,1)
 names(ind)<-c("Index1","Index2","Index3","Index4","Area","Euclidean","Mean")
 dist<-0
-for(jj in 3:4){
-for(yy in 5:ini1){
+for(jj in 3:5){
+for(yy in 6:ini1){
 for(tt in ini2:ini3){
 for(hh in ini4:final){
 
@@ -825,7 +857,7 @@ cc<-5
 x<-c(0,0.866014756,1.366018998,1.366022671,0.866024792,0,-0.866028465,-1.366032706,-1.366032706,-1.366036379,-0.8660385)
 y<-c(3.732045342,3.332050644,2.366027689,1.366027689,0.40000106,0,0.399994698,1.366017653,1.366017653,2.366017653,3.332044281)
 
-if(verdad==FALSE) ini1<-19 else ini1<-18
+if(verdad==FALSE) ini1<-20 else ini1<-19
 ini2<-ini1+1
 ini3<-ini2+6
 if(is.null(TaxonPhyl)) ini4<-ini3+1 else ini4<-ini3+3

@@ -7,11 +7,8 @@ citEntry(entry = "Article",
   year         = "2017",
   volume       = "81",
   pages        = "41--46",
-  url          = "http://www.sciencedirect.com/science/article/pii/S1470160X17303047",
-
   textVersion  =
   paste("Guisande C., Heine J., García-Roselló E., González-Dacosta J., González-Vilas L. & Pérez-Schofield B.J. (2017).",
         "DER: An algorithm for comparing species diversity between assemblages.",
-        "Ecological Indicators, 81: 41:46.",
-"URL http://www.sciencedirect.com/science/article/pii/S1470160X17303047")
+        "Ecological Indicators, 81: 41:46.")
 )
