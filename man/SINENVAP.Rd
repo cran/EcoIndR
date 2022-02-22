@@ -187,7 +187,7 @@ The color scale is depicted with the color.legend function from the plotrix pack
 \strong{EXAMPLE}
 The figure shows the contour map of the spatial interpolation of the example 1, the rainfall in the Iberian Peninsula.
 \tabular{c}{
-\if{html}{\figure{EcoIndRF3.jpg}{options: width=4.5in}}
+\if{html}{\figure{EcoIndRF3.jpg}{options: width="50"}}
 \if{latex}{\figure{EcoIndRF3.jpg}{options: width=4.5in}}
 }
 }

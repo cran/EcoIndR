@@ -15,7 +15,7 @@ file3="Indices and area of the polygon.csv", na="NA", dec=",", row.names=FALSE, 
 \arguments{
   \item{data}{Data file with the taxonomy, abundance of the species and functional traits (optional). The format of the file must be: an optional column with the position of labels' samples in the DER plot (blue column) in the same order as the variables with the species' abundance in the samples (red columns), the columns with the taxonomy of the species (as many as needed, green columns), the columns with the abundance of the species in each sample (red columns) and optionally the columns with the functional traits of the species. Each row is an unique species, genus, family, etc.
 \tabular{r}{
-\if{html}{\figure{EcoIndRF1.jpg}{options: width=4.5in}}
+\if{html}{\figure{EcoIndRF1.jpg}{options: width="50"}}
 \if{latex}{\figure{EcoIndRF1.jpg}{options: width=4.5in}}
 }
 }
@@ -236,7 +236,7 @@ The index Fisher alpha was estimated with the function \link[vegan]{fisher.alpha
 
 The example without functional diversity is a dataset with the abundance of rotifers species in ponds (see table 1 in Mazuelos et al., 1993). In the argument \emph{Index} were selected Rarity, Menhinick, McIntoshE and Dstar, which are the indices selected by the algorithm when \emph{Index=NULL} (default option). The sample G3.1 had the lowest values of the indices of rarity, heterogeneity, evenness and taxonomic diversity and the pond I3.1 the highest values for all indices.
 \tabular{c}{
-\if{html}{\figure{EcoIndRF2.jpg}{options: width=5in}}
+\if{html}{\figure{EcoIndRF2.jpg}{options: width="50"}}
 \if{latex}{\figure{EcoIndRF2.jpg}{options: width=5in}}
 }
 }
