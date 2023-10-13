@@ -8,6 +8,229 @@ file3="Indices and area of the polygon.csv", na="NA", dec=",", row.names=FALSE, 
 
 
 
+Arrowhead <- function(x0, y0, angle=0, arr.length=0.4,
+  arr.width=arr.length/2, arr.adj=0.5, arr.type="curved",
+  lcol="black", lty=1, arr.col=lcol, arr.lwd = 2, npoint = 5, ...) {
+
+
+  if (arr.type=="none") {
+    return()
+  }
+
+  if ( arr.type=="curved") { # composed as section of circels
+
+    rad <- 0.7                                        
+    len <- 0.25*pi
+    mid <- c(0,rad)
+
+    x   <- seq(1.5*pi+len,1.5*pi,length.out=npoint)
+    rr  <- cbind(mid[1]-rad*cos(x),mid[2]+rad*sin(x)) 
+    mid <- c(0,-rad)
+    x   <- rev(x)
+    rr  <- rbind(rr,cbind(mid[1]-rad*cos(x),mid[2]-rad*sin(x)))
+    mid <-c(rr[nrow(rr),1],0)
+    rd  <-rr[1,2]
+    x   <-seq(pi/2,3*pi/2,length.out=3*npoint)       
+    rr <- rbind(rr,cbind(mid[1]-rd*0.25*cos(x),mid[2]-rd*sin(x)))
+    rr[,1] <- rr[,1]*2.6
+    rr[,2] <- rr[,2]*3.45
+  } else
+
+  if (arr.type=="triangle") {
+    x   <- c(-0.2,0.0,-0.2)
+    y   <- c(-0.1,0.0,0.1)
+    rr  <- 6.22*cbind(x,y)
+  } else
+
+  if (arr.type %in% c("circle","ellipse") )  {
+
+    if (arr.type=="circle")
+      arr.width=arr.length
+    rad <- 0.1               
+    mid <- c(-rad,0)
+    x<- seq(0,2*pi,length.out=15*npoint)
+    rr <- 6.22*cbind(mid[1]+rad*sin(x),mid[2]+rad*cos(x))
+  }
+
+  if(arr.adj == 0.5)
+    rr[,1] <- rr[,1]-min(rr[,1])/2
+  if(arr.adj == 0)
+    rr[,1] <- rr[,1]-min(rr[,1])
+
+  user <- par("usr")
+  pcm  <- par("pin")*2.54
+
+  sy<- (user[4]-user[3])/pcm[2]
+  sx<- (user[2]-user[1])/pcm[1]
+  nr <- max(length(x0),length(y0),length(angle),
+            length(arr.length),length(arr.width),
+            length(lcol),length(lty),length(arr.col))
+  if (nr>1) {
+    x0         <- rep(x0        ,length.out=nr)
+    y0         <- rep(y0        ,length.out=nr)
+    angle      <- rep(angle     ,length.out=nr)
+    arr.length <- rep(arr.length,length.out=nr)
+    arr.width  <- rep(arr.width,length.out=nr)
+    lcol       <- rep(lcol      ,length.out=nr)
+    lty        <- rep(lty       ,length.out=nr)
+    arr.col    <- rep(arr.col   ,length.out=nr)
+  }
+  RR<-rr
+  for (i in 1:nr) {
+  ## rotation around midpoint
+    dx <- rr[,1]*arr.length [i]
+    dy <- rr[,2]*arr.width  [i]
+
+    angpi <- angle[i] / 180 *pi
+    cosa  <-cos(angpi)
+    sina  <-sin(angpi)
+
+    RR[,1]<-  cosa*dx-sina*dy
+    RR[,2]<-  sina*dx+cosa*dy
+
+## rescaling and transposing
+    RR[,1]<- x0[i] +RR[,1]*sx
+    RR[,2]<- y0[i] +RR[,2]*sy
+
+## drawing...
+    polygon(RR,col=arr.col[i],border=lcol[i],lty=lty[i],lwd=arr.lwd, ...)
+  }
+}
+
+rotatexy   <- function (xy, angle, mid=colMeans(xy), asp=FALSE) {
+
+  xy    <- matrix(ncol=2,data=xy)
+  angpi <- angle / 180 *pi
+  cosa  <-cos(angpi)
+  sina  <-sin(angpi)
+
+  dx    <- xy[,1] - mid[1]
+  dy    <- xy[,2] - mid[2]
+
+  ex    <-mid[1] + cosa*dx-sina*dy
+  ey    <-mid[2] + sina*dx+cosa*dy
+
+  if (asp) {
+    user <- par("usr")
+    pin  <- par("pin")
+    sy   <- user[4]-user[3]
+    sx   <- user[2]-user[1]
+    ey   <- mid[2] + (ey -mid[2])*sy/sx*pin[1]/pin[2]
+  }
+
+  return(cbind(ex,ey))
+}
+Arrows <- function(x0, y0, x1, y1, code=2,
+  arr.length=0.4, arr.width=arr.length/2, arr.adj=0.5,
+  arr.type="curved", segment=TRUE, col="black", lcol=col, lty=1,
+  arr.col=lcol, lwd = 1, arr.lwd = lwd, ...)  {
+
+  if (arr.type=="simple") {
+    arrows(x0,y0,x1,y1,code=code,length=arr.length/2.54,
+           lty=lty, col=col, lwd=lwd, ...)
+    return()
+  }
+  if (arr.type=="none") {
+    return()
+  }
+  if (arr.type=="T") {
+    arrows(x0,y0,x1,y1,code=code,length=arr.length/(2*2.54),
+           lty=lty, angle=90, col=col, lwd=lwd,  ...)
+    return()
+  }
+
+  ## draw segment
+  if (segment)                                
+    segments(x0,y0,x1,y1,col=lcol,lty=lty,lwd=lwd,...)
+
+  ## scaling factor
+  user<-par("usr")
+  pin <-par("pin")
+  pin <- pin/max(pin)
+  sy<- (user[4]-user[3]) /pin[2]
+  sx<- (user[2]-user[1]) /pin[1]
+
+  ## code = 2
+  angle<- atan((y1-y0) /(x1-x0) *sx/sy)/pi*180
+  angle[is.nan(angle)]<-0
+  angle [x1<x0] <-180+angle[x1<x0]
+  xx<-x1
+  yy<-y1
+  if (sy < 0 & sx < 0) 
+    angle <- angle + 180
+  else if (sx < 0) 
+    angle <- angle + 180
+  
+  ## code =3 draws two arrowheads
+  if (code == 3)
+    Arrowhead(x0=xx,y0=yy,angle=angle,
+              lcol=lcol,arr.col=arr.col,arr.adj=arr.adj,
+              lty=lty,arr.length=arr.length,arr.width=arr.width,
+              arr.type=arr.type,arr.lwd=arr.lwd, ...)
+
+  if (code != 2) {
+    angle <-180 + angle
+    xx<-x0
+    yy<-y0
+  }
+
+  Arrowhead(x0=xx,y0=yy,angle=angle,lcol=lcol,arr.col=arr.col,
+            arr.adj=arr.adj,lty=lty,arr.length=arr.length,
+            arr.width=arr.width,arr.type=arr.type,arr.lwd=arr.lwd, ...)
+}
+
+
+getellipse <- function (rx=1, ry=rx, mid=c(0,0), dr=0.01,
+  angle=0, from=-pi, to=pi) {
+
+  dr <- abs(dr)
+  if (to < from) to <- 2*pi + to
+  x  <- c( seq(from,to,by=dr), to)
+  if (x[length(x)] == x[length(x)-1])
+    x <- x[-length(x)]
+  xy <- cbind( mid[1] + rx * cos(x), mid[2] + ry * sin(x))
+
+  if (angle != 0)
+    xy <- rotatexy (xy, angle=angle, mid=mid)  # rotate around mid
+  return(xy)
+}
+
+plotellipse <- function (rx=1, ry=0.2, mid=c(0,0), dr=0.01,
+  angle=0, from=-pi, to=pi, type="l", lwd=2, lcol="black",
+  col=NULL, arrow=FALSE, arr.length=0.4, arr.width=arr.length*0.5,
+  arr.type="curved", arr.pos=1, arr.code=2, arr.adj=0.5,
+  arr.col="black",  ...) {
+
+
+  xy<-getellipse (rx,ry,mid,angle=angle,dr=dr,from=from,to=to)
+
+  if (! is.null(col))
+    polygon(xy,col=col,border=NA)
+  if (type != "n" )
+    lines(xy,type=type,lwd=lwd,col=lcol,...)
+  nr <- nrow(xy)
+
+  if (arrow) {
+    ilen <- length(arr.pos)
+    if (ilen>1) {
+      arr.code  <- rep(arr.code  ,length.out=ilen)
+      arr.col   <- rep(arr.col   ,length.out=ilen)
+      arr.length<- rep(arr.length,length.out=ilen)
+      arr.width <- rep(arr.width ,length.out=ilen)
+      arr.type  <- rep(arr.type  ,length.out=ilen)
+      arr.adj   <- rep(arr.adj   ,length.out=ilen)
+    }
+
+    for (i in 1: ilen) {
+      ii <- max(2,trunc(nr*arr.pos[i]))
+      Arrows(xy[ii-1,1], xy[ii-1,2], xy[ii,1], xy[ii,2],
+            lcol=arr.col[i], code=arr.code[i], arr.col=arr.col[i],
+            arr.length =arr.length[i], arr.width=arr.width[i],
+            arr.type=arr.type[i], arr.adj=arr.adj[i])
+    }
+  }
+}
+
 #####Checking data required
 if(!is.null(Index) & (length(Index)!=4 & length(Index)!=5)){
 stop("The number of indices in the argument Index must be 4 or 5")
@@ -41,6 +264,186 @@ sps<-as.character(data[pos1,Species])
 stop(paste("There are no records of the following species:", paste(sps, collapse=", ")))
 }
 
+rescale<-function(x,newrange) {
+ if(missing(x) | missing(newrange)) {
+  usage.string<-paste("Usage: rescale(x,newrange)\n",
+   "\twhere x is a numeric object and newrange is the new min and max\n",
+   sep="",collapse="")
+  stop(usage.string)
+ }
+ if(is.numeric(x) && is.numeric(newrange)) {
+  xna<-is.na(x)
+  if(all(xna)) return(x)
+  if(any(xna)) xrange<-range(x[!xna])
+  else xrange<-range(x)
+  # if x is constant, just return it
+  if(xrange[1] == xrange[2]) return(x)
+  mfac<-(newrange[2]-newrange[1])/(xrange[2]-xrange[1])
+  return(newrange[1]+(x-xrange[1])*mfac)
+ }
+ else {
+  warning("Only numeric objects can be rescaled")
+  return(x)
+ }
+}
+
+color.scale<-function(x,cs1=c(0,1),cs2=c(0,1),cs3=c(0,1),alpha=1,
+ extremes=NA,na.color=NA,xrange=NULL,color.spec="rgb") {
+ 
+ xdim<-dim(x)
+ if (diff(range(x, na.rm = TRUE)) == 0) x<-x/max(x,na.rm=TRUE)
+ naxs<-is.na(x)
+ if(!is.na(extremes[1])){
+  # calculate the color ranges from the extremes - only for rgb
+  colmat<-col2rgb(extremes)
+  cs1<-colmat[1,]/255
+  cs2<-colmat[2,]/255
+  cs3<-colmat[3,]/255
+  color_spec<-"rgb"
+ }
+ maxcs1<-ifelse(color.spec=="hcl",360,1)
+ maxcs2<-ifelse(color.spec=="hcl",100,1)
+ maxcs3<-ifelse(color.spec=="hcl",100,1)
+ ncolors<-length(x)
+ if(is.null(xrange)) {
+  xrange<-range(x,na.rm=TRUE)
+  drop.extremes<-FALSE
+ }
+ else {
+  if(xrange[1] > min(x,na.rm=TRUE) || xrange[2] < max(x,na.rm=TRUE))
+   stop("An explicit range for x must include the range of x values.")
+  x<-c(xrange,x)
+  drop.extremes=TRUE
+ }
+ ncs1<-length(cs1)
+ if(ncs1>1) {
+  cs1s<-rep(cs1[ncs1],ncolors)
+  xstart<-xrange[1]
+  xinc<-diff(xrange)/(ncs1-1)
+  for(seg in 1:(ncs1-1)){
+   segindex<-which((x >= xstart) & (x <= (xstart+xinc)))
+   cs1s[segindex]<-rescale(x[segindex],cs1[c(seg,seg+1)])
+   xstart<-xstart+xinc
+  }
+  if(min(cs1s,na.rm=TRUE) < 0 || max(cs1s,na.rm=TRUE) > maxcs1)
+   cs1s<-rescale(cs1s,c(0,maxcs1))
+ }
+ else cs1s<-rep(cs1,ncolors)
+ ncs2<-length(cs2)
+ if(ncs2>1) {
+  cs2s<-rep(cs2[ncs2],ncolors)
+  xstart<-xrange[1]
+  xinc<-diff(xrange)/(ncs2-1)
+  for(seg in 1:(ncs2-1)){
+   segindex<-which((x >= xstart) & (x <= (xstart+xinc)))
+   cs2s[segindex]<-rescale(x[segindex],cs2[c(seg,seg+1)])
+   xstart<-xstart+xinc
+  }
+  if(min(cs2s,na.rm=TRUE) < 0 || max(cs2s,na.rm=TRUE) > maxcs2)
+   cs2s<-rescale(cs2s,c(0,maxcs2))
+ }
+ else cs2s<-rep(cs2,ncolors)
+ ncs3<-length(cs3)
+ if(ncs3>1) {
+  cs3s<-rep(cs3[ncs3],ncolors)
+  xstart<-xrange[1]
+  xinc<-diff(xrange)/(ncs3-1)
+  for(seg in 1:(ncs3-1)){
+   segindex<-which((x >= xstart) & (x <= (xstart+xinc)))
+   cs3s[segindex]<-rescale(x[segindex],cs3[c(seg,seg+1)])
+   xstart<-xstart+xinc
+  }
+  if(min(cs3s,na.rm=TRUE) < 0 || max(cs3s,na.rm=TRUE) > maxcs3)
+   cs3s<-rescale(cs3s,c(0,maxcs3))
+ }
+ else cs3s<-rep(cs3,ncolors)
+ if(drop.extremes) {
+  cs1s<-cs1s[-(1:2)]
+  cs2s<-cs2s[-(1:2)]
+  cs3s<-cs3s[-(1:2)]
+ }
+ colors<-do.call(color.spec,list(cs1s,cs2s,cs3s,alpha=alpha))
+ if(!is.null(xdim)) colors<-matrix(colors,nrow=xdim[1])
+ if(length(naxs)) colors[naxs]<-na.color
+ return(colors)
+}
+
+color.gradient<-function(reds,greens,blues,nslices=50) {
+ return(color.scale(1:nslices,reds,greens,blues))
+}
+
+gradient.rect<-function(xleft,ybottom,xright,ytop,reds,greens,blues, 
+ col=NULL,nslices=50,gradient="x",border=par("fg")) {
+
+ if(is.null(col)) col<-color.gradient(reds, greens, blues, nslices)
+ else nslices<-length(col)
+ nrect<-max(unlist(lapply(list(xleft,ybottom,xright,ytop),length)))
+ oldxpd<-par(xpd=NA)
+ if(nrect > 1) {
+  if(length(xleft) < nrect) xleft<-rep(xleft,length.out=nrect)
+  if(length(ybottom) < nrect) ybottom<-rep(ybottom,length.out=nrect)
+  if(length(xright) < nrect) xright<-rep(xright,length.out=nrect)
+  if(length(ytop) < nrect) ytop<-rep(ytop,length.out=nrect)
+  for(i in 1:nrect)
+   gradient.rect(xleft[i],ybottom[i],xright[i],ytop[i],
+    reds,greens,blues,col,nslices,gradient,border=border)
+ }
+ else {
+  if (gradient == "x") {
+   xinc <- (xright - xleft)/nslices
+   xlefts <- seq(xleft, xright - xinc, length = nslices)
+   xrights <- xlefts + xinc
+   rect(xlefts,ybottom,xrights,ytop,col=col,lty=0)
+   rect(xlefts[1],ybottom,xrights[nslices],ytop,border=border)
+  }
+  else {
+   yinc <- (ytop - ybottom)/nslices
+   ybottoms <- seq(ybottom, ytop - yinc, length = nslices)
+   ytops <- ybottoms + yinc
+   rect(xleft,ybottoms,xright,ytops,col=col,lty=0)
+   rect(xleft,ybottoms[1],xright,ytops[nslices],border=border)
+  }
+ }
+ par(oldxpd)
+ invisible(col)
+}
+
+color.legend<-function (xl,yb,xr,yt,legend,rect.col,cex=1,align="lt",
+ gradient="x",...) {
+
+ oldcex<-par("cex")
+ par(xpd=TRUE,cex=cex)
+ gradient.rect(xl,yb,xr,yt,col=rect.col,nslices=length(rect.col),
+  gradient=gradient)
+ if(gradient == "x") {
+  xsqueeze<-(xr-xl)/(2*length(rect.col))
+  textx<-seq(xl+xsqueeze,xr-xsqueeze,length.out=length(legend))
+  if(match(align,"rb",0)) {
+   texty<-yb-0.2*strheight("O")
+   textadj<-c(0.5,1)
+  }
+  else {
+   # assume it's the default
+   texty<-yt+0.2*strheight("O")
+   textadj<-c(0.5,0)
+  }
+ }
+ else {
+  ysqueeze<-(yt-yb)/(2*length(rect.col))
+  texty<-seq(yb+ysqueeze,yt-ysqueeze,length.out=length(legend))
+  if(match(align,"rb",0)) {
+   textx<-xr+0.2*strwidth("O")
+   textadj<-c(0,0.5)
+  }
+  else {
+   # assume it's the default
+   textx<-xl-0.2*strwidth("O")
+   textadj<-c(1,0.5)
+  }
+ }
+ text(textx,texty,labels=legend,adj=textadj,...)
+ par(xpd=FALSE,cex=oldcex)
+}
 
 
 ####Function for calculating the area of the polar coordinates
@@ -208,11 +611,11 @@ valor<-valor+int
 color<-append(color,valor)
 }
 if(is.null(TaxonFunc)){
-plotrix::color.legend(xl=-1.2,yb=3.8,xr=1.2,yt=3.9,
+color.legend(xl=-1.2,yb=3.8,xr=1.2,yt=3.9,
 legend=color,gradient='x',align='rb',cex=1,rect.col=rev(rampa))
 }
 else{
-plotrix::color.legend(xl=-1.55,yb=4.5,xr=1.55,yt=4.6,
+color.legend(xl=-1.55,yb=4.5,xr=1.55,yt=4.6,
 legend=color,gradient='x',align='rb',cex=1,rect.col=rev(rampa))
 }
 }
@@ -748,7 +1151,7 @@ plot(x=0,y=0, cex=0, bty="n", xlim=c(-1.41,1.41), ylim=c(-0.6,3.67), xlab="",
 ylab="", axes=FALSE)
 
 
-shape::plotellipse(rx=1.12,ry=1.5385,mid=c(0,1.5385),lcol='white',col=COLOR[1])
+plotellipse(rx=1.12,ry=1.5385,mid=c(0,1.5385),lcol='white',col=COLOR[1])
 
 
 
@@ -1033,7 +1436,7 @@ datosF<-datosFF
 plot(x=0,y=0, cex=0, bty="n", xlim=c(-1.77,1.77), ylim=c(-0.5,4.34), xlab="",
 ylab="", axes=FALSE)
 
-shape::plotellipse(rx=1.42,ry=1.866,mid=c(0,1.866),lcol='white',col=COLOR[1])
+plotellipse(rx=1.42,ry=1.866,mid=c(0,1.866),lcol='white',col=COLOR[1])
 
 
 if(is.null(Index)){

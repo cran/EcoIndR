@@ -40,7 +40,7 @@ par(font.lab=2, mar=c(6,5,3,4),cex.lab=1.5)
 }
 }
 
-if(class(ASC)=="RasterLayer"){
+if(inherits(ASC, "RasterLayer")==TRUE){
 
 ZZ[1,1]<-"ORGANIZING ASC FILE"
 write.table(ZZ,"Inf.txt", row.names=FALSE,col.names=FALSE)
@@ -147,7 +147,7 @@ if(!is.null(shape)){
 ZZ[1,1]<-"ORGANIZING SHAPE FILE"
 write.table(ZZ,"Inf.txt", row.names=FALSE,col.names=FALSE)
 
-if(class(shape)=="list"){
+if(inherits(shape,"list")==TRUE){
 polygon<-shape[[1]]
 lsh<-length(shape)
 if(lsh>1){
@@ -158,7 +158,7 @@ polygon<-eval(parse(text=paste("subset(polygon,",noquote(shapenames), " %in% hh)
 }
 else{
 polygon<-shape
-if(class(polygon)=="character"){
+if(inherits(polygon,"character")==TRUE){
 polygon<-eval(parse(text=paste(".GlobalEnv$", polygon, sep="")))
 }
 }
@@ -272,7 +272,7 @@ write.table(ZZ,"Inf.txt", row.names=FALSE,col.names=FALSE)
 
 ashape_to_SPLDF <- function(x, proj4string=NA)
 	{
-	if(class(x) != 'ashape')
+	if(inherits(x, 'ashape')==FALSE)
 		stop('this function only works with `ashape` class objects')
 	
 	# convert ashape edges to DF
@@ -802,7 +802,7 @@ kappaT<-NA
 
 
 
-if(class(accu)=="matrix"){
+if(inherits(accu,"matrix")==TRUE){
 accu<-as.data.frame(accu)
 names(accu)<-c("Model", "range", "sill", "nugget", "kappa", "Accuracy.Index", "Measure")
 accu[,1]<-m
