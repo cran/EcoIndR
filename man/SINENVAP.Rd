@@ -124,7 +124,7 @@ Variable and polygon latitudes and longitudes may be in either decimal or UTM fo
 
 Variable and polygon information data may be in CSV, EXCEL, or RData files. ASC files (argument ASC) may also be used for the variable, but in this case, it is not necessary to provide latitude or longitude information for each datum in the \emph{dataLat} and \emph{dataLon} arguments. Polygon coordinates may be in the same file as variable data in CSV, EXCEL, or RData files.
 
-If RWizard is used, any of the administrative areas available in RWizard may be chosen as polygons in the \emph{Area} argument: countries, departments, provinces, etc. River basins may also be used as polygons, in the database available in RWizard (González-Vilas et al., 2015). 
+If RWizard is used, any of the administrative areas available in RWizard may be chosen as polygons in the \emph{Area} argument: countries, departments, provinces, etc. River basins may also be used as polygons, in the database available in RWizard (Gonzalez-Vilas et al., 2015). 
 
 Shape files may be used to import polygon coordinates with the \emph{shape} argument. If a shape file or the polygons available in RWizard are used, coordinate specification is unnecessary in \emph{polyLat} and \emph{polyLon} arguments.
 
@@ -194,7 +194,7 @@ The figure shows the contour map of the spatial interpolation of the example 1, 
 \references{
 Hijmans, R.J., van Etten, J., Cheng, J., Sumner, M., Mattiuzzi, M., Greenberg, J.A., Lamigueiro, O.P., Bevan, A., Bivand, R., Busetto, L., Canty, M., Forrest, D., Ghosh, A., Golicher, D., Gray, J., Hiemstra, P., Karney, C., Mosher, S., Nowosad, J., Pebesma, E., Racine, E.B., Rowlingson, B., Shortridge, A., Venables, B., Wueest, R. (2018) Geographic Data Analysis and Modeling. R package version 2.8-4. Available at: \url{https://CRAN.R-project.org/package=raster}.
 
-González-Vilas, L., Guisande, C., Vari, R. P., Pelayo-Villamil, P., Manjarrés-Hernández, A., García-Roselló, E., González-Dacosta, J., Heine, J., Pérez-Costas, E., Granado-Lorencio, C., Palau-Ibars, A., Lobo, J. M. (2016) Geospatial data of freshwater habitats for macroecological studies: an example with freshwater fishes. \emph{Journal of Geographical Information Science}, 30: 126-141.
+Gonzalez-Vilas, L., Guisande, C., Vari, R. P., Pelayo-Villamil, P., Manjarres-Hernandez, A., Garcia-Rosello, E., Gonzalez-Dacosta, J., Heine, J., Perez-Costas, E., Granado-Lorencio, C., Palau-Ibars, A., Lobo, J. M. (2016) Geospatial data of freshwater habitats for macroecological studies: an example with freshwater fishes. \emph{Journal of Geographical Information Science}, 30: 126-141.
 
 Lemon, J. (2006) Plotrix: a package in the red light district of R. \emph{R-News}, 6: 8-12.
 

@@ -36,7 +36,7 @@ file3="Indices and area of the polygon.csv", na="NA", dec=",", row.names=FALSE, 
   \item{ncolor}{Gradient color of the color legend.}
   \item{transparency}{Transparency of the color gradient, from 0 to 1.}
   \item{references}{If it is TRUE the reference points are depicted on the DER plot.}
-  \item{a}{Scale of Rényi diversity.}
+  \item{a}{Scale of Renyi diversity.}
   \item{q}{Scale of Tsallis diversity.}
   \item{ResetPAR}{If it is FALSE, the default condition of the function PAR of the package StatR is not placed and maintained those defined by the user in previous graphics.}
   \item{PAR}{It accesses the function PAR of the package StatR that allows to modify many different aspects of the graph.}
@@ -58,7 +58,7 @@ file3="Indices and area of the polygon.csv", na="NA", dec=",", row.names=FALSE, 
 
 The steps of DER algorithm are described below:
 
-\strong{1.} The function DER calculates the most often used indices (see below): a total of 39 indices that includes 2 of rarity, 14 of heterogeneity, 7 of evenness, 2 of taxonomic diversity, 8 of phylogenetic diversity and 6 of functional diversity. It is important to mention that the indices included in the groups of phylogenetic diversity and functional diversity, each explores a different facet of phylogenetic diversity (Kembel et al., 2010) and functional diversity (Laliberté et al., 2010), respectively.
+\strong{1.} The function DER calculates the most often used indices (see below): a total of 39 indices that includes 2 of rarity, 14 of heterogeneity, 7 of evenness, 2 of taxonomic diversity, 8 of phylogenetic diversity and 6 of functional diversity. It is important to mention that the indices included in the groups of phylogenetic diversity and functional diversity, each explores a different facet of phylogenetic diversity (Kembel et al., 2010) and functional diversity (Laliberte et al., 2010), respectively.
 
 \emph{Rarity indices}
 
@@ -74,7 +74,7 @@ In the following equations \emph{S} is the number of species (species richness) 
 
 \emph{Heterogeneity indices}
 
-In the following equations \emph{S} is the number of species (species richness) in the sample, \eqn{p_i} is the abundace's proportion of species \emph{i}, \emph{N} is the total number of individuals in the sample, \eqn{n_i} is the number of individuals of the species \emph{i}, \eqn{n_{max}} is the number of individuals of the most abundant species, \emph{a} and \emph{q} are the orders of Rényi and Tsallis indices respectively and, finally, in Fisher's alpha the index is the \eqn{\alpha} parameter.
+In the following equations \emph{S} is the number of species (species richness) in the sample, \eqn{p_i} is the abundace's proportion of species \emph{i}, \emph{N} is the total number of individuals in the sample, \eqn{n_i} is the number of individuals of the species \emph{i}, \eqn{n_{max}} is the number of individuals of the most abundant species, \emph{a} and \emph{q} are the orders of Renyi and Tsallis indices respectively and, finally, in Fisher's alpha the index is the \eqn{\alpha} parameter.
 
 \emph{log Shannon-Wiener (S.W.LOG2)} and \emph{ln Shannon-Wiener (S.W)} (Wiener, 1939; 1948; 1949; Shannon, 1948; Shannon & Weaver, 1949). See Spellerger & Fedor (2013) for an explanation of the dual use of the terms Shannon-Wiener and Shannon-Weaver to refer to this diversity index.
 \deqn{H=-\displaystyle\sum_{i=1}^{S}p_ilog_2p_i}
@@ -95,7 +95,7 @@ In the following equations \emph{S} is the number of species (species richness) 
 \emph{Margalef} (Margalef, 1959)
 \deqn{D_{Mg}=\frac{(S-1)}{lnN}}
 
-\emph{Rényi entropy} (Rényi, 1961) 
+\emph{Renyi entropy} (Renyi, 1961) 
 \deqn{H_a=\frac{1}{(1-a)}log\displaystyle\sum_{i=1}^{S}p_i^a} 
 
 \emph{Menhinick} (Menhinick, 1964)
@@ -109,7 +109,7 @@ In the following equations \emph{S} is the number of species (species richness) 
 
 \emph{Hill numbers} (Hill, 1973)
 
-Hill-Rényi
+Hill-Renyi
 \deqn{N_a=e^{H_a}}
 
 Hill-Tsallis
@@ -143,7 +143,7 @@ Annotations of the equations as mentioned for heterogeneity indices.
 
 \emph{Hill evenness (HillE)} (Hill, 1973)
 
-It is used Hill-Rényi numbers where in \eqn{N_2} the value of a = 2 and in \eqn{N_2} the value of a = 1
+It is used Hill-Renyi numbers where in \eqn{N_2} the value of a = 2 and in \eqn{N_2} the value of a = 1
 \deqn{E_{2,1}=\frac{N_2}{N_1}}
 
 \emph{Heip evenness (HeipE)} (Heip, 1974)
@@ -182,20 +182,20 @@ Quadratic entropy \tab  \tab   \tab Rao (1982)
 
 In the following equations \emph{S} is the number of species, where \eqn{d_{ij}} is the difference between the \emph{i-th} and \emph{j-th} species, \eqn{p_i} is the abundance's proportion of the species \emph{i}, \eqn{p_j} is the abundance's proportion of the species \eqn{j}, \emph{EW} is weighted evenness, dist(\emph{i}, \emph{j}) is the Euclidean distance between species \emph{i} and \emph{j}, the species involved is branch \emph{l}, \eqn{w_i} is the relative abundance of the species \emph{i}, \eqn{PEW_l} is the partial weighted evenness, \eqn{g_k} are the coordinates of the center of gravity of the \emph{V} species forming the vertices of the convex hull, \eqn{x_{ik}} is the coordinate of species \emph{i} on trait \emph{k}, \eqn{dG_i} is the Euclidean distance of the center of gravity, \eqn{\bar{dG}} is the mean distance of the \emph{S} species to the center of gravity, \eqn{\Delta}\emph{d} is the sum of abundance-weighted deviances and \eqn{\Delta}\emph{|d|} absolute abundance-weighted deviances.
 
-\emph{Rao's quadratic entropy} (Rao, 1982; Botta-Dukát, 2005):
+\emph{Rao's quadratic entropy} (Rao, 1982; Botta-Dukat, 2005):
 \deqn{Q=\displaystyle\sum_{i=1}^{S-1}\displaystyle\sum_{j=i+1}^{S-1}d_{ij}p_ip_j}
 \deqn{d_{ij}=\displaystyle\sum_{k=1}^{n}\displaystyle\sum_{l=1}^{n}w_{kl}(X_{ik}-X_{jk})(X_{il}-X_{jl})}
 
 \emph{Functional group richness (FGR)} Petchey and Gaston (2006)
 
-\emph{Functional richness (FRic)} is measured as the amount of functional space (convex hull volume) filled by the community (Villéger et al., 2008).
+\emph{Functional richness (FRic)} is measured as the amount of functional space (convex hull volume) filled by the community (Villeger et al., 2008).
 
-\emph{Functional evenness (FEve)} (Villéger et al., 2008):
+\emph{Functional evenness (FEve)} (Villeger et al., 2008):
 \deqn{FEve=\frac{\displaystyle\sum_{l=1}^{S-1}min(PEW_l,\frac{1}{S-1})-\frac{1}{S-1}}{1-\frac{1}{S-1}}}
 \tabular{ll}{
 \eqn{PEW_l=\frac{EW_l}{\displaystyle\sum_{l=1}^{S}EW_l}} \tab \eqn{EW_l=\frac{dis(i,j)}{w_i+w_j}}\cr
 }
-\emph{Functional divergence (FDiv)} (Villéger et al., 2008):
+\emph{Functional divergence (FDiv)} (Villeger et al., 2008):
 \deqn{FDiv=\frac{\Delta{d}+\bar{dG}}{\Delta{|d|}+\bar{dG}}}
 \tabular{ll}{
 \eqn{\Delta{|d|}=\displaystyle\sum_{i=1}^{S}w_i|dG_i-\bar{dG}|} \tab \eqn{\Delta{d}=\displaystyle\sum_{i=1}^{S}w_i(dG_i-\bar{dG})}\cr
@@ -203,7 +203,7 @@ In the following equations \emph{S} is the number of species, where \eqn{d_{ij}}
 \tabular{lll}{
 \eqn{\bar{dG}=\frac{1}{S}\displaystyle\sum_{i=1}^{S}dG_i} \tab \eqn{dG_i=\sqrt{\displaystyle\sum_{k=1}^{T}(x_{ik}-g_k)^2}} \tab \eqn{g_k=\frac{1}{V}\displaystyle\sum_{i=1}^{V}x_{ik}}\cr
 }
-\emph{Functional dispersion (FDis)} (Laliberté and Legendre, 2010):
+\emph{Functional dispersion (FDis)} (Laliberte and Legendre, 2010):
 \tabular{ll}{
 \eqn{FDisp=\frac{\sum{a_jz_j}}{\sum{a_j}}} \tab \eqn{c=\frac{\sum{a_jx_{ij}}}{\sum{a_j}}}\cr
 }
@@ -230,7 +230,7 @@ Each index is assigned an angle (\eqn{\alpha}). Degrees to radians angle convers
 
 \strong{FUNCTIONS}
 
-The index Fisher alpha was estimated with the function \link[vegan]{fisher.alpha}, the index Rényi with the function \link[vegan]{renyi}, the index Tsallis with the function \link[vegan]{tsallis}, the taxonomic diversity and taxonomic distinctness with the functions \link[vegan]{taxa2dist} and \link[vegan]{taxondive}, all of them of the package vegan (Oksanen et al., 2016). The ellipse is depicted with the function \link[shape]{plotellipse} of the package shape (Soetaert, 2016). The convex hull (alpha=6) was calculated with the function \link[splancs]{areapl} of the package splancs (Bivand et al., 2016). The color legend of DER plot was depicted with the function \link[plotrix]{color.legend} of the package plotrix (Lemon et al., 2016). The rarity index of Leroy was calculated with the functions \link[Rarity]{rWeights} and \link[Rarity]{Irr}, both of the package Rarity (Leroy et al., 2012; 2103; Leroy, 2016). The functional diversity indices were calculated with the function \link[FD]{dbFD} of the package FD (Laliberté et al., 2015). The phylogenetic indices were calculated with the functions psv, psr, pse, psc, raoD, mntd, mpd and pd of the package picante (Kembel et al. 2010 2016)
+The index Fisher alpha was estimated with the function \link[vegan]{fisher.alpha}, the index Renyi with the function \link[vegan]{renyi}, the index Tsallis with the function \link[vegan]{tsallis}, the taxonomic diversity and taxonomic distinctness with the functions \link[vegan]{taxa2dist} and \link[vegan]{taxondive}, all of them of the package vegan (Oksanen et al., 2016). The ellipse is depicted with the function \link[shape]{plotellipse} of the package shape (Soetaert, 2016). The convex hull (alpha=6) was calculated with the function \link[splancs]{areapl} of the package splancs (Bivand et al., 2016). The color legend of DER plot was depicted with the function \link[plotrix]{color.legend} of the package plotrix (Lemon et al., 2016). The rarity index of Leroy was calculated with the functions \link[Rarity]{rWeights} and \link[Rarity]{Irr}, both of the package Rarity (Leroy et al., 2012; 2103; Leroy, 2016). The functional diversity indices were calculated with the function \link[FD]{dbFD} of the package FD (Laliberte et al., 2015). The phylogenetic indices were calculated with the functions psv, psr, pse, psc, raoD, mntd, mpd and pd of the package picante (Kembel et al. 2010 2016)
 
 \strong{EXAMPLE}
 
@@ -245,11 +245,11 @@ Berger, W.H., Parker, F.L. (1970) Diversity of planktonic Foramenifera in deep s
 
 Bivand, R., Rowlingson, B., Diggle, P., Petris, G., Eglen, S. (2016) Spatial and Space-Time Point Pattern Analysis. R Package Version 2.01-39. \url{https://CRAN.R-project.org/package=splancs}
 
-Botta-Dukát, Z. (2005) Rao's quadratic entropy as a measure of functional diversity based on multiple traits. \emph{Journal of Vegetation Science}, 16: 533-540.
+Botta-Dukat, Z. (2005) Rao's quadratic entropy as a measure of functional diversity based on multiple traits. \emph{Journal of Vegetation Science}, 16: 533-540.
 
 Brillouin, L. (1956) \emph{Science and information theory}. New York: Academic Press.
 
-Camargo, J.A. (1992) New diversity index for assessing structural alterations in aquatic communities. emph{Bulletin of Environmental Contamination and Toxicology}, 48, 428-434.
+Camargo, J.A. (1992) New diversity index for assessing structural alterations in aquatic communities. \emph{Bulletin of Environmental Contamination and Toxicology}, 48, 428-434.
 
 Clarke, K.R. & Warwick, R.M. (1998). A taxonomic distinctness index and its statistical properties. \emph{Journal of Applied Ecology}, 35: 523-531.
 
@@ -269,9 +269,9 @@ Kembel, S.W., Cowan, P.D., Helmus, M.R., Cornwell, W.K., Morlon, H., Ackerly, D.
 
 Kembel, S.W., Ackerly, D.D., Blomberg, S.P., Cornwell, W.K., Cowan, P.D., Helmus, M.R., Morlon, H. & Webb, C.O. (2016) R tools for integrating phylogenies and ecology. R Package Version 1.6-2. \url{https://CRAN.R-project.org/package=picante}
 
-Laliberté, E. & Legendre, P. (2010) A distance-based framework for measuring functional diversity from multiple traits. \emph{Ecology}, 91: 299-305.
+Laliberte, E. & Legendre, P. (2010) A distance-based framework for measuring functional diversity from multiple traits. \emph{Ecology}, 91: 299-305.
 
-Laliberté, E., Legendre, P. & Shipley, B. (2015) Measuring functional diversity (FD) from multiple traits, and other tools for functional ecology. R package version 1.0-12. Available at: \url{https://CRAN.R-project.org/package=FD}.
+Laliberte, E., Legendre, P. & Shipley, B. (2015) Measuring functional diversity (FD) from multiple traits, and other tools for functional ecology. R package version 1.0-12. Available at: \url{https://CRAN.R-project.org/package=FD}.
 
 Lemon, J., Bolker, B., Oom, S., Klein, E., Rowlingson, B.,Wickham, H., Tyagi, A., Eterradossi, O., Grothendieck, G., Toews, M., Kane, J., Turner, R., Witthoft, C., Stander, J., Petzoldt, T., Duursma, R., Biancotto, E., Levy, O., Dutang, C., Solymos, P., Engelmann, R., Hecker, M., Steinbeck, F., Borchers, H., Singmann, H., Toal, T. & Ogle, D. (2016) Various plotting functions. R package version 3.6-3. Available at: \url{https://CRAN.R-project.org/package=plotrix}.
 
@@ -297,7 +297,7 @@ McIntosh, R.P. (1967) An index of diversity and the relation of certain concepts
 
 Menhinick, E.P. (1964) A comparison of some species-individual diversity indices applies to samples of field insects. \emph{Ecology}, 45: 859-861.
 
-Rényi, A. (1961) On measures of information and entropy. \emph{Proceedings of the fourth Berkeley Symposium on Mathematics, Statistics and Probability Vol. 1}: 547-561.
+Renyi, A. (1961) On measures of information and entropy. \emph{Proceedings of the fourth Berkeley Symposium on Mathematics, Statistics and Probability Vol. 1}: 547-561.
 
 Rao, C.R. (1982) Diversity and dissimilarity coefficients: a unified approach. \emph{Theoretical Population Biology}, 21: 24-43.
 
@@ -315,7 +315,7 @@ Spellerger, I.F. & Fedor P.J. (2013) A tribute to Claude Shannon (1916-2001) and
 
 Tsallis, C. (1988) Possible generalization of Boltzmann-Gibbs statistics. \emph{Journal of Statistical Physics}, 52: 479-487.
 
-Villéger, S., Mason, N.W.H. & Mouillot, D. (2008) New multidimensional functional diversity indices for a multifaceted framework in functional ecology. \emph{Ecology} 89: 2290-2301.
+Villeger, S., Mason, N.W.H. & Mouillot, D. (2008) New multidimensional functional diversity indices for a multifaceted framework in functional ecology. \emph{Ecology} 89: 2290-2301.
 
 Webb, C.O., Ackerly, D.D. & Kembel, W. (2008) Phylocom: software for the analysis of phylogenetic community structure and trait evolution. \emph{Bioinformatics}, 24: 2098-2100.
 

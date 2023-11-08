@@ -496,7 +496,7 @@ ZZ[2,2]<-""
 }
 write.table(ZZ,"Inf.txt", row.names=FALSE,col.names=FALSE)
 }
-##########Fin función time()
+##########End time()
 
 
 
@@ -625,7 +625,7 @@ legend=color,gradient='x',align='rb',cex=1,rect.col=rev(rampa))
 
 
 if(ResetPAR==TRUE){
-#Resetear par() a las opciones por defecto
+
 resetPar <- function() {
     dev.new()
     op <- par(no.readonly = TRUE)
@@ -681,7 +681,7 @@ sps<-make.unique(sps, sep= "")
 }
 
 data[,Species]<-sps
-#####
+
 
 
 ####Samples selection
@@ -814,7 +814,7 @@ Hei<-(exp(Shannonln)-1)/(Richness-1)
 Hei[is.na(Hei)]<-0
 
 
-###Camargo's eveness from Zhou Xiang
+###Camargo eveness from Zhou Xiang
 camargo <- function(n_spec, include_zeros = T)
 {
   if (include_zeros) n <- n_spec else n <- n_spec[n_spec > 0]
@@ -832,7 +832,7 @@ cam<-datos
 cam[is.na(cam)]<-0
 camargo<-apply(X = cam, MARGIN = 1 , camargo )
 
-###Smith and Wilson´s Index of Evenness
+###Smith and Wilsons Index of Evenness
 SW1<-apply(X = datos , MARGIN = 1 , FUN = sum, na.rm=TRUE)
 SW2<-SW1/Richness
 SW3<-as.matrix(log(datos))
@@ -882,7 +882,7 @@ if(any(names=="phylo")==TRUE){
 aa<-paste(aa,"$","phylo", sep="")
 }
 
-#Faith's phylogenetic diversity
+#Faith phylogenetic diversity
 exe<-paste("picante::pd(","datos,",aa,")")
 PD<-eval(parse(text=exe))
 
